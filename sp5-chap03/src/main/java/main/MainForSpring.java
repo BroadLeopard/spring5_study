@@ -4,17 +4,27 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import assembler.Assembler;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import config.AppCtx;
 import spring.ChangePasswordService;
 import spring.DuplicateMemberException;
+import spring.MemberInfoPrinter;
+import spring.MemberListPrinter;
 import spring.MemberNotFoundException;
 import spring.MemberRegisterService;
 import spring.RegisterRequest;
+import spring.VersionPrinter;
 import spring.WrongIdPasswordException;
 
-public class MainForAssembler {
+public class MainForSpring {
 
+	private static ApplicationContext ctx = null;//Assembler 클래스가 사라지고 컨테이너가 생김
+	
 	public static void main(String[] args) throws IOException {
+		ctx = new AnnotationConfigApplicationContext(AppCtx.class);//스프링 컨테이너 초기화
+		
 		BufferedReader reader = 
 				new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
@@ -24,25 +34,33 @@ public class MainForAssembler {
 				System.out.println("종료합니다.");
 				break;
 			}
-			if (command.startsWith("new ")) {//new 로 시작하는 입력
+			if (command.startsWith("new ")) {
 				processNewCommand(command.split(" "));
 				continue;
-			} else if (command.startsWith("change ")) {//change로 시작하는 입력
+			} else if (command.startsWith("change ")) {
 				processChangeCommand(command.split(" "));
 				continue;
+			} else if (command.equals("list")) {
+				processListCommand();
+				continue;
+			} else if (command.startsWith("info ")) {
+				processInfoCommand(command.split(" "));
+				continue;
+			} else if (command.equals("version")) {
+				processVersionCommand();
+				continue;
 			}
-			printHelp();//명령어 잘못 입력한 경우
+			printHelp();
 		}
 	}
-
-	private static Assembler assembler = new Assembler();
 
 	private static void processNewCommand(String[] arg) {
 		if (arg.length != 5) {
 			printHelp();
 			return;
 		}
-		MemberRegisterService regSvc = assembler.getMemberRegisterService();//MemberRegisterService 객체 반환
+		MemberRegisterService regSvc = 
+				ctx.getBean("memberRegSvc", MemberRegisterService.class);//컨테이너에서 이름이 memberRegSvc 인 빈 객체를 찾아온다.
 		RegisterRequest req = new RegisterRequest();
 		req.setEmail(arg[1]);
 		req.setName(arg[2]);
@@ -67,7 +85,7 @@ public class MainForAssembler {
 			return;
 		}
 		ChangePasswordService changePwdSvc = 
-				assembler.getChangePasswordService();//ChangePasswordService 객체 반환
+				ctx.getBean("changePwdSvc", ChangePasswordService.class);//컨테이너에서 이름이 changePwdSvc 인 빈 객체를 찾아온다.
 		try {
 			changePwdSvc.changePassword(arg[1], arg[2], arg[3]);
 			System.out.println("암호를 변경했습니다.\n");
@@ -86,4 +104,27 @@ public class MainForAssembler {
 		System.out.println("change 이메일 현재비번 변경비번");
 		System.out.println();
 	}
+
+	private static void processListCommand() {
+		MemberListPrinter listPrinter = 
+				ctx.getBean("listPrinter", MemberListPrinter.class);
+		listPrinter.printAll();
+	}
+
+	private static void processInfoCommand(String[] arg) {
+		if (arg.length != 2) {
+			printHelp();
+			return;
+		}
+		MemberInfoPrinter infoPrinter = 
+				ctx.getBean("infoPrinter", MemberInfoPrinter.class);
+		infoPrinter.printMemberInfo(arg[1]);
+	}
+	
+	private static void processVersionCommand() {
+		VersionPrinter versionPrinter = 
+				ctx.getBean("versionPrinter", VersionPrinter.class);
+		versionPrinter.print();
+	}
+
 }

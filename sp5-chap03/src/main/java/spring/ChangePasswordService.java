@@ -1,6 +1,6 @@
 package spring;
 
-public class ChangePasswordService {
+public class ChangePasswordService {//암호 변경 서비스 클래스
 
 	private MemberDao memberDao;
 
