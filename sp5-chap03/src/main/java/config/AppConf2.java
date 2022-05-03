@@ -14,7 +14,7 @@ import spring.VersionPrinter;
 
 @Configuration
 public class AppConf2 {
-	@Autowired
+	@Autowired//해당 타입의 bean을 찾아서 필드에 할당
 	private MemberDao memberDao;
 	@Autowired
 	private MemberPrinter memberPrinter;

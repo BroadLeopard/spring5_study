@@ -8,8 +8,8 @@ import spring.MemberDao;
 import spring.MemberPrinter;
 
 @Configuration
-@Import({AppConf2.class})
-public class AppConfImport {
+@Import({AppConf2.class})//import
+public class AppConfImport {//AppConf1과 내용은 같음 차이는 @Import 있냐 없냐
 
 	@Bean
 	public MemberDao memberDao() {

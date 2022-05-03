@@ -38,13 +38,13 @@ public class AppCtx {
 	
 	@Bean
 	public MemberListPrinter listPrinter() {
-		return new MemberListPrinter(memberDao(), memberPrinter());
+		return new MemberListPrinter(memberDao(), memberPrinter());//파라미터 2개 이상
 	}
 	
 	@Bean
 	public MemberInfoPrinter infoPrinter() {
 		MemberInfoPrinter infoPrinter = new MemberInfoPrinter();
-		infoPrinter.setMemberDao(memberDao());
+		infoPrinter.setMemberDao(memberDao());//setter 사용
 		infoPrinter.setPrinter(memberPrinter());
 		return infoPrinter;
 	}

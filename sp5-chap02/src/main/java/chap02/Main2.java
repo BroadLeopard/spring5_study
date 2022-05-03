@@ -8,7 +8,7 @@ public class Main2 {
 		AnnotationConfigApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(AppContext.class);
 		Greeter g = ctx.getBean("greeter", Greeter.class);//빈 객체 이름, 빈 객체 타입
-		String msg = g.greet("spring");
+		String msg = g.greet("spring");//빈 객체의 greet 함수 실행
 		System.out.println(msg);
 		ctx.close();
 	}

@@ -7,7 +7,7 @@ import spring.MemberDao;
 import spring.MemberPrinter;
 
 @Configuration
-public class AppConf1 {
+public class AppConf1 {//설정 파일로 나눠서 관리
 
 	@Bean
 	public MemberDao memberDao() {
