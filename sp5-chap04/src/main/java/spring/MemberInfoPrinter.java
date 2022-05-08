@@ -18,7 +18,7 @@ public class MemberInfoPrinter {
 		System.out.println();
 	}
 
-	@Autowired
+	@Autowired// 함수에도 붙이는게 가능하다.
 	public void setMemberDao(MemberDao memberDao) {
 		this.memDao = memberDao;
 	}

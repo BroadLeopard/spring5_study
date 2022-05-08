@@ -51,6 +51,8 @@ public class AppCtx {
 	@Bean
 	public MemberInfoPrinter infoPrinter() {
 		MemberInfoPrinter infoPrinter = new MemberInfoPrinter();
+		//setMemberDao 함수에 @Autowired 함수를 써서 setter 사라짐
+		infoPrinter.setPrinter(memberPrinter2());//이렇게 명시적 의존을 해도 Autowired 자동 주입을 통해 일치하는 빈을 주입한다.
 		return infoPrinter;
 	}
 	

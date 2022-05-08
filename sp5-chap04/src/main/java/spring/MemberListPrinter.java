@@ -9,7 +9,7 @@ public class MemberListPrinter {
 	private MemberDao memberDao;
 	private MemberPrinter printer;
 
-	public MemberListPrinter() {
+	public MemberListPrinter() {//추가
 	}
 	
 	public MemberListPrinter(MemberDao memberDao, MemberPrinter printer) {
@@ -22,12 +22,12 @@ public class MemberListPrinter {
 		members.forEach(m -> printer.print(m));
 	}
 
-	@Autowired
+	@Autowired//추가
 	public void setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
 	}
 	
-	@Autowired
+	@Autowired//추가
 	public void setMemberPrinter(MemberSummaryPrinter printer) {
 		this.printer = printer;
 	}

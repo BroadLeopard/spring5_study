@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class MemberRegisterService {
 	@Autowired
-	private MemberDao memberDao;
+	private MemberDao memberDao;//Autowired 추가
 
 	public MemberRegisterService() {
 	}
